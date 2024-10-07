@@ -2,7 +2,6 @@ package com.example.colormemory;
 
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

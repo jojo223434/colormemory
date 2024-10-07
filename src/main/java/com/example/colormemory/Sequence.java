@@ -1,7 +1,10 @@
 package com.example.colormemory;
 
+import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
+import javafx.util.Duration;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -34,8 +37,9 @@ public class Sequence
     }
 
     // Method to play back all squares in the current sequence
-    public void playAllSquares()
+    public void playAllSquares(Runnable onFinish)
     {
+        System.out.println("true");
         SequentialTransition sequentialTransition = new SequentialTransition();
 
         // Loop through the sequence list
@@ -48,5 +52,7 @@ public class Sequence
 
             sequentialTransition.getChildren().add(scaleTransition);
         }
+        sequentialTransition.setOnFinished(event -> onFinish.run());
+        sequentialTransition.play();
     }
 }
