@@ -17,9 +17,6 @@ public class Square extends Rectangle
         super(x,y, 100, 100);
         pane.getChildren().add(this);
         this.setFill(color);
-
-        // Add a mouse click event to scale the square
-        this.setOnMouseClicked(mouseEvent -> scaleSquare(this));
     }
 
     //Method to crate and return and animation that scales the square
@@ -33,6 +30,7 @@ public class Square extends Rectangle
         scaleTransition.setCycleCount(2);
         scaleTransition.setByX(0.2);
         scaleTransition.setByY(0.2);
+
         return scaleTransition;
     }
 }

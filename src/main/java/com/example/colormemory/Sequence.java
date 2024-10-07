@@ -8,7 +8,7 @@ import java.util.Random;
 public class Sequence
 {
     // Stores the squares as a list of integers
-    ArrayList<Integer> orderArray = new ArrayList<>();
+    ArrayList<Integer> sequenceArray = new ArrayList<>();
 
     // Store the available squares in and array
     ArrayList<Square> squaresArray = new ArrayList<>();
@@ -29,19 +29,19 @@ public class Sequence
     public void addNewSquareToSequence()
     {
         int randomNumber = randomSquare.nextInt(4);
-        orderArray.add(randomNumber);
+        sequenceArray.add(randomNumber);
         System.out.println("randomNumber: " + randomNumber);
     }
 
-    // Method to play back all squares in the current order
+    // Method to play back all squares in the current sequence
     public void playAllSquares()
     {
         SequentialTransition sequentialTransition = new SequentialTransition();
 
-        // Loop through the sequence
-        for(int i = 0; i < orderArray.size(); i++)
+        // Loop through the sequence list
+        for(int i = 0; i < sequenceArray.size(); i++)
         {
-            int x = orderArray.get(i);
+            int x = sequenceArray.get(i);
             Square square = squaresArray.get(x);
 
             ScaleTransition scaleTransition = square.scaleSquare(square);
