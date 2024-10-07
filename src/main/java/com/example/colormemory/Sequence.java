@@ -44,10 +44,9 @@ public class Sequence
             int x = sequenceArray.get(i);
             Square square = squaresArray.get(x);
 
-            ScaleTransition scaleTransition = square.scaleSquare(square);
+            ScaleTransition scaleTransition = square.scaleSquare();
 
             sequentialTransition.getChildren().add(scaleTransition);
         }
-        sequentialTransition.play();
     }
 }

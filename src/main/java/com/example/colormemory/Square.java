@@ -20,16 +20,17 @@ public class Square extends Rectangle
     }
 
     //Method to crate and return and animation that scales the square
-    public ScaleTransition scaleSquare(Node node)
+    public ScaleTransition scaleSquare()
     {
         ScaleTransition scaleTransition = new ScaleTransition();
-        scaleTransition.setNode(node);
+        scaleTransition.setNode(this);
         scaleTransition.setInterpolator(Interpolator.EASE_OUT);
         scaleTransition.setDuration(Duration.seconds(1.0));
         scaleTransition.setAutoReverse(true);
         scaleTransition.setCycleCount(2);
         scaleTransition.setByX(0.2);
         scaleTransition.setByY(0.2);
+        scaleTransition.play();
 
         return scaleTransition;
     }

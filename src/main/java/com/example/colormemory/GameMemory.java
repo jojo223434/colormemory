@@ -10,16 +10,17 @@ import javafx.scene.paint.Color;
 public class GameMemory extends Application
 {
     Sequence sequence;
+    Square square1, square2, square3, square4;
 
     @Override
     public void start(Stage stage) throws Exception
     {
         Pane pane = new Pane();
 
-        Square square1 = new Square(pane, 85, 50, Color.RED);
-        Square square2 = new Square(pane, 210, 50, Color.YELLOW);
-        Square square3 = new Square(pane, 85, 180, Color.GREEN);
-        Square square4 = new Square(pane, 210, 180, Color.BLUE);
+        square1 = new Square(pane, 85, 50, Color.RED);
+        square2 = new Square(pane, 210, 50, Color.YELLOW);
+        square3 = new Square(pane, 85, 180, Color.GREEN);
+        square4 = new Square(pane, 210, 180, Color.BLUE);
 
         sequence = new Sequence (square1, square2, square3, square4);
 
@@ -41,22 +42,49 @@ public class GameMemory extends Application
 
     public void pressedSquare1()
         {
-            check();
+            square1.scaleSquare();
+
+            if (sequence.sequenceArray.getLast() == 0){
+                sequence.playAllSquares();
+                sequence.addNewSquareToSequence();
+            }
+            else {
+                System.out.println("Lose");
+            }
         }
 
     public void pressedSquare2()
     {
-
+        if (sequence.sequenceArray.getLast() == 1){
+            sequence.playAllSquares();
+            sequence.addNewSquareToSequence();
+        }
+        else {
+            System.out.println("Lose");
+        }
     }
 
     public void pressedSquare3()
     {
+        if (sequence.sequenceArray.getLast() == 2){
+            sequence.playAllSquares();
+            sequence.addNewSquareToSequence();
+        }
+        else {
+            System.out.println("Lose");
+        }
 
     }
 
     public void pressedSquare4()
     {
-
+        if (sequence.sequenceArray.getLast() == 3){
+            sequence.playAllSquares();
+            sequence.addNewSquareToSequence();
+        }
+        else {
+            System.out.println("Lose");
+        }
     }
     public void check()
     {
