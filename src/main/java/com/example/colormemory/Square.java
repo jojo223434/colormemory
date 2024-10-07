@@ -2,6 +2,7 @@ package com.example.colormemory;
 
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -19,16 +20,16 @@ public class Square extends Rectangle
     }
 
     //Method to crate and return and animation that scales the square
-    public ScaleTransition scaleSquare()
+    public ScaleTransition scaleSquare(Node node)
     {
         ScaleTransition scaleTransition = new ScaleTransition();
-        scaleTransition.setNode(this);
         scaleTransition.setInterpolator(Interpolator.EASE_OUT);
         scaleTransition.setDuration(Duration.seconds(1.0));
         scaleTransition.setAutoReverse(true);
         scaleTransition.setCycleCount(2);
         scaleTransition.setByX(0.2);
         scaleTransition.setByY(0.2);
+        scaleTransition.setNode(node);
         scaleTransition.play();
 
         return scaleTransition;

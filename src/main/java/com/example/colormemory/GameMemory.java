@@ -8,13 +8,16 @@ import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 
 public class GameMemory extends Application
 {
     Sequence sequence;
     Square square1, square2, square3, square4;
     int count = 0;
-    boolean isTransitioning = false;
 
     @Override
     public void start(Stage stage) throws Exception
@@ -29,7 +32,7 @@ public class GameMemory extends Application
         sequence = new Sequence (square1, square2, square3, square4);
 
         sequence.addNewSquareToSequence();
-        playSequence();
+        sequence.playAllSquares();
 
         square1.setOnMouseClicked(mouseEvent -> pressedSquare(0, square1));
         square2.setOnMouseClicked(mouseEvent -> pressedSquare(1, square2));
@@ -43,11 +46,12 @@ public class GameMemory extends Application
         stage.show();
     }
 
+
     public void pressedSquare(int squareIndex, Square square)
         {
-            if (isTransitioning) return;
+            square.scaleSquare(square);
 
-            square.scaleSquare();
+            ScheduledExecutorService order = Executors.newScheduledThreadPool(1);
 
             if (sequence.sequenceArray.get(count) == squareIndex)
             { count++;
@@ -55,7 +59,9 @@ public class GameMemory extends Application
                 {
                     count = 0;
                     sequence.addNewSquareToSequence();
-                    playSequence();
+                    order.schedule(() -> {
+                        sequence.playAllSquares();
+                    }, 3, TimeUnit.SECONDS);
                 }
             }
             else
@@ -64,19 +70,6 @@ public class GameMemory extends Application
                 count = 0;
             }
         }
-
-    public void playSequence()
-    {
-        isTransitioning = true;
-        sequence.playAllSquares(() -> {
-            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1.0));
-            pauseTransition.setOnFinished(event ->
-            {
-                isTransitioning = false;
-            });
-            pauseTransition.play();
-        });
-    }
 
     public static void main(String[] args)
     {
