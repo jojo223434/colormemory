@@ -1,12 +1,10 @@
 package com.example.colormemory;
 
-import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -25,7 +23,7 @@ public class GameMemory extends Application {
         square3 = new Square(pane, 85, 180, Color.GREEN);
         square4 = new Square(pane, 210, 180, Color.BLUE);
 
-        sequence = new Sequence(square1, square2, square3, square4);
+        sequence = new Sequence(this, square1, square2, square3, square4);
 
         sequence.addNewSquareToSequence();
         sequence.playAllSquares();
@@ -43,10 +41,8 @@ public class GameMemory extends Application {
     }
 
     public void pressedSquare(int squareIndex, Square square) {
-        // Deaktiver klik, mens sekvensen spilles
-        disableClicks();
 
-        square.scaleSquare(square);
+        square.scaleSquare(square, true);
 
         ScheduledExecutorService order = Executors.newScheduledThreadPool(1);
 
@@ -63,13 +59,10 @@ public class GameMemory extends Application {
             System.out.println("Lose");
             count = 0;
         }
-
-        // Genaktiver klik efter en kort pause
-        order.schedule(this::enableClicks, 1, TimeUnit.SECONDS);
     }
 
     // Metode til at deaktivere klik
-    private void disableClicks() {
+    public void disableClicks() {
         square1.setDisable(true);
         square2.setDisable(true);
         square3.setDisable(true);
@@ -77,7 +70,7 @@ public class GameMemory extends Application {
     }
 
     // Metode til at genaktivere klik
-    private void enableClicks() {
+    public void enableClicks() {
         square1.setDisable(false);
         square2.setDisable(false);
         square3.setDisable(false);
