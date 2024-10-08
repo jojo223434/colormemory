@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
+import java.awt.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -15,12 +16,24 @@ public class GameMemory extends Application
     Square square1, square2, square3, square4; // Four squares used in the game
     int count = 0; // Keeps track of the player's progress through the current sequence
 
+    ScoreCounter scoreCounter;
+
+    Button startButton = new Button("Start");
+
     @Override
     public void start(Stage stage) throws Exception
     {
-
         // Create a Pane to hold the squares
         Pane pane = new Pane();
+
+        // Create scene, add background color, and show it on stage
+        Scene scene = new Scene(pane, 400, 400);
+        scene.setFill(Color.GREY);
+        stage.setScene(scene);
+        stage.setTitle("Memory Game");
+        stage.show();
+
+        scoreCounter = new ScoreCounter(pane);
 
         // Create four squares with specified positions and colors
         square1 = new Square(pane, 85, 50, Color.RED);
@@ -40,13 +53,6 @@ public class GameMemory extends Application
         square2.setOnMouseClicked(mouseEvent -> pressedSquare(1, square2));
         square3.setOnMouseClicked(mouseEvent -> pressedSquare(2, square3));
         square4.setOnMouseClicked(mouseEvent -> pressedSquare(3, square4));
-
-        // Create scene, add background color, and show it on stage
-        Scene scene = new Scene(pane, 400, 400);
-        scene.setFill(Color.BLACK);
-        stage.setScene(scene);
-        stage.setTitle("Memory Game");
-        stage.show();
     }
 
     // Method called when a square is clicked
@@ -70,6 +76,8 @@ public class GameMemory extends Application
                 count = 0; // reset count for the next round
                 sequence.addNewSquareToSequence(); // Add a new square to the sequence
 
+                scoreCounter.addScore();
+
                 // Schedule the sequence to play after a 3-second delay
                 order.schedule(() ->
                 {
@@ -83,6 +91,7 @@ public class GameMemory extends Application
             count = 0; // Reset the sequence
         }
     }
+
 
     // Method to disable square clicks during sequence playback
     public void disableClicks()
