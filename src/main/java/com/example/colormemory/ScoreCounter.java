@@ -15,11 +15,13 @@ public class ScoreCounter extends Label
         this.score = 0;
 
         scoreLabel = new Label();
-        scoreLabel.setLayoutX(200);
+        scoreLabel.setLayoutX(160);
         scoreLabel.setLayoutY(20);
         scoreLabel.setFont(new Font("Arial", 20));
         scoreLabel.setText("Score: " + score);
+        pane.setStyle("-fx-background-color: grey;");
         pane.getChildren().add(scoreLabel);
+
     }
 
     public void addScore()
