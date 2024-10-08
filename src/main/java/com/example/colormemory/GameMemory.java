@@ -2,10 +2,10 @@ package com.example.colormemory;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
-import java.awt.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,17 +14,23 @@ public class GameMemory extends Application
 {
     Sequence sequence; // The sequence of squares that the player must follow
     Square square1, square2, square3, square4; // Four squares used in the game
+    Pane pane; // The Pane layout for the game
     int count = 0; // Keeps track of the player's progress through the current sequence
 
+    // To track and display the player's score
     ScoreCounter scoreCounter;
 
+    // A boolean that tracks if the player selects the correct sequence
+    boolean allSquareCorrect;
+
+    // A Start/Restart buttom for the game
     Button startButton = new Button("Start");
 
     @Override
     public void start(Stage stage) throws Exception
     {
         // Create a Pane to hold the squares
-        Pane pane = new Pane();
+        pane = new Pane();
 
         // Create scene, add background color, and show it on stage
         Scene scene = new Scene(pane, 400, 400);
@@ -32,6 +38,13 @@ public class GameMemory extends Application
         stage.setScene(scene);
         stage.setTitle("Memory Game");
         stage.show();
+
+        // The position of the button and add it to the pane
+        startButton.setLayoutX(175);
+        startButton.setLayoutY(300);
+        pane.getChildren().add(startButton);
+        // Press the start button to start the game
+        startButton.setOnAction(event -> {startGame();});
 
         scoreCounter = new ScoreCounter(pane);
 
@@ -44,15 +57,20 @@ public class GameMemory extends Application
         // Initialize the sequence with the squares and the game reference
         sequence = new Sequence(this, square1, square2, square3, square4);
 
-        // Add the first square to the sequence and play it
-        sequence.addNewSquareToSequence();
-        sequence.playAllSquares();
-
         // Set up a mouse click for each square
         square1.setOnMouseClicked(mouseEvent -> pressedSquare(0, square1));
         square2.setOnMouseClicked(mouseEvent -> pressedSquare(1, square2));
         square3.setOnMouseClicked(mouseEvent -> pressedSquare(2, square3));
         square4.setOnMouseClicked(mouseEvent -> pressedSquare(3, square4));
+    }
+
+    public void startGame()
+    {
+        // Add the first square to the sequence and play it
+        sequence.addNewSquareToSequence();
+        sequence.playAllSquares();
+
+        startButton.setText("Start");
     }
 
     // Method called when a square is clicked
@@ -74,9 +92,10 @@ public class GameMemory extends Application
             if (count == sequence.sequenceArray.size())
             {
                 count = 0; // reset count for the next round
+                allSquareCorrect = true;
                 sequence.addNewSquareToSequence(); // Add a new square to the sequence
 
-                scoreCounter.addScore();
+                scoreCounter.addScore(); // Update the score
 
                 // Schedule the sequence to play after a 3-second delay
                 order.schedule(() ->
@@ -86,10 +105,21 @@ public class GameMemory extends Application
             }
         } else
         {
-            // If the player clicks the wrong square, they lose the game
-            System.out.println("Lose");
-            count = 0; // Reset the sequence
+            // If the sequence pressed is incorrect reset the game
+            tryAgain();
         }
+    }
+
+    // Resets the game
+    public void tryAgain()
+    {
+        allSquareCorrect = false; // Player did not follow the sequence
+
+        startButton.setText("Restart Game"); // changes the button text
+        startButton.setVisible(true); // make the button visible
+        scoreCounter.setScore(0); // Reset the score
+
+        sequence.sequenceArray.clear(); // Clears the current sequence
     }
 
 

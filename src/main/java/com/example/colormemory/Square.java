@@ -8,14 +8,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-
+// Class that represents each square in the game
 public class Square extends Rectangle
 {
     // Constructor for the Square class
-    // Initializes a square object with specified position and color, then adds it to the pane
     public Square(Pane pane, int x, int y, Color color)
     {
-        // Call the superclass constuctor (Rectangle) to set the square's position and size
+        // Call the superclass constructor (Rectangle) to set the square's position and size
         super(x,y, 100, 100);
 
         // Add the square to the Pane so it is visible in the game

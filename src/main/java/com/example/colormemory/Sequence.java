@@ -83,7 +83,7 @@ public class Sequence
         sequentialTransition.setOnFinished(event ->
         {
             gameMemory.enableClicks();
-            System.out.println("Finished"); // indicate the sequence is finished
+            System.out.println("Finished"); // indicate the sequence is finished so u can press again
         });
     }
 }
