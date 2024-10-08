@@ -23,7 +23,7 @@ public class GameMemory extends Application
     // A boolean that tracks if the player selects the correct sequence
     boolean allSquareCorrect;
 
-    // A Start/Restart buttom for the game
+    // A Start/Restart button for the game
     Button startButton = new Button("Start");
 
     @Override
@@ -88,7 +88,7 @@ public class GameMemory extends Application
         {
             count++; // Move to the next square in the sequence
 
-            // If the player has succesfully matched the full sequence
+            // If the player has successfully matched the full sequence
             if (count == sequence.sequenceArray.size())
             {
                 count = 0; // reset count for the next round
