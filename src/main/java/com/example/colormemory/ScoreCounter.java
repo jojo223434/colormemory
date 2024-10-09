@@ -32,10 +32,6 @@ public class ScoreCounter extends Label
         scoreLabel.setText("Score: " + score); // Updates the label text
     }
 
-    public int getScore() {
-        return this.score; // return current score
-    }
-
     // Method to display and set a specific score
     public void setScore(int score)
     {
