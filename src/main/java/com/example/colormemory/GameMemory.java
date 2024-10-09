@@ -66,12 +66,12 @@ public class GameMemory extends Application
 
     public void startGame()
     {
-        startButton.setVisible(false);
 
         // Add the first square to the sequence and play it
         sequence.addNewSquareToSequence();
         sequence.playAllSquares();
 
+        startButton.setVisible(false);
         startButton.setText("Start");
     }
 
