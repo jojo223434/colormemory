@@ -34,7 +34,6 @@ public class Sequence
         squaresArray.add(square4);
     }
 
-
     // Method to add a new randomly chosen square to the sequenceArray
     public void addNewSquareToSequence()
     {
