@@ -9,25 +9,25 @@ import java.util.Random;
 
 public class Sequence
 {
-    // Stores the squares as a list of integers
+    // Gemmer firkanterne som en liste over heltal
     ArrayList<Integer> sequenceArray = new ArrayList<>();
 
-    // List to store the available squares in the game
+    // Liste for at gemme de tilgængelige firkanter i spillet
     ArrayList<Square> squaresArray = new ArrayList<>();
 
-    // Random selection of a square for the sequence
+    // Tilfældig udvælgelse af en firkant til rækkefølgen
     Random randomSquare = new Random();
 
-    // Reference to the main GameMemmory application, used to control game flow ( enable/disable clicks)
+    // Reference til hovedapplikationen GameMemmory, der bruges til at styre spilflowet (aktiver/deaktiver klik)
     GameMemory gameMemory;
 
-    // Constructor that takes four squares and add them to the squaresArray list
-    public Sequence(GameMemory mainApp, Square square1, Square square2, Square square3, Square square4, Square square5, Square square6, Square square7, Square square8, Square square9, Square square10)
+    // Konstruktør, der tager fire firkanter og tilføjer dem til squaresArray-listen
+    public Sequence(GameMemory mainApp, Square square1, Square square2, Square square3, Square square4,Square square5,Square square6,Square square7,Square square8,Square square9)
     {
-        // Store the reference to the main game application
+        // Gem referencen til hovedspilapplikationen
         gameMemory = mainApp;
 
-        // Add the four squares to the list of available squares
+        // Tilføj de fire firkanter til listen over tilgængelige firkanter
         squaresArray.add(square1);
         squaresArray.add(square2);
         squaresArray.add(square3);
@@ -38,61 +38,57 @@ public class Sequence
         squaresArray.add(square8);
         squaresArray.add(square9);
 
-        
     }
 
-    public Sequence(GameMemory mainApp, Square square1, Square square2, Square square3, Square square4, Square square5, Square square6, Square square7, Square square8, Square square9) {
-    }
-
-    // Method to add a new randomly chosen square to the sequenceArray
+    // Metode til at tilføje en ny tilfældigt valgt firkant til sequenceArray
     public void addNewSquareToSequence()
     {
-        // Generate a random number between 0 and 3 to select one of the four squares
-        int randomNumber = randomSquare.nextInt(4);
+        // Generer et tilfældigt tal mellem 0 og 3 for at vælge en af ​​de fire firkanter
+        int randomNumber = randomSquare.nextInt(9);
 
-        // Add the random number to the sequence
+        // Tilføj det tilfældige tal til sekvensen
         sequenceArray.add(randomNumber);
 
-        // Print the selected random number
+        // Udskriv det valgte tilfældige tal
         System.out.println("randomNumber: " + randomNumber);
     }
 
-    // Method to play back the entire sequence of squares with animations
+    // Metode til at afspille hele sekvensen afirkanter med animationer
     public void playAllSquares()
     {
 
-        // Create a SequentialTransition object tp play animations one after another
+        // Opret et sekventielt overgangsobjekt for at afspille animationer efter hinanden
         SequentialTransition sequentialTransition = new SequentialTransition();
 
-        // Loop through the sequenceArray to access each square's index
+        // Gå gennem sequenceArray'et for at få adgang til hver firkants indeks
         for (int i = 0; i < sequenceArray.size(); i++)
         {
-            // Get the index of the square from the sequenceArray
+            // Få indekset for kvadratet fra sequenceArray
             int x = sequenceArray.get(i);
-            // Retrieve the corresponding square from SquaresArray based on the index
+            // Hent den tilsvarende firkant fra SquaresArray baseret på indekset
             Square square = squaresArray.get(x);
 
-            // Create a ScaleTransition for the selected square (false means it's not triggered by a mouse event)
+            // Opret en ScaleTransition for den valgte firkant (falsk betyder, at den ikke udløses af en musehændelse)
             ScaleTransition scaleTransition = square.scaleSquare(square, false);
 
-            // Create a pause between each square's animation
+            // Lav en pause mellem hver firkants animation
             PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
 
-            // Add both the scale transition and the pause to the sequentialTransition
+            // Tilføj både skalaovergangen og pausen til den sekventielle overgang
             sequentialTransition.getChildren().addAll(scaleTransition, pause);
         }
 
-        // Play the entire sequence of animations
+        // Spil hele sekvensen af animationer
         sequentialTransition.play();
 
-        // Disable clicks on squares while the sequence is playing
+        // Deaktiver klik på firkanter, mens sekvensen afspilles
         gameMemory.disableClicks();
 
-        // After the sequence is finished playing, enable clicks again
+        // Når sekvensen er færdig med at spille, skal du aktivere klik igen
         sequentialTransition.setOnFinished(event ->
         {
             gameMemory.enableClicks();
-            System.out.println("Finished"); // indicate the sequence is finished so you can press again
+            System.out.println("Finished"); // indikere, at sekvensen er afsluttet, så du kan trykke igen
         });
     }
 }

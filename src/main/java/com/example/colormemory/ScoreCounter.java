@@ -4,24 +4,24 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 
-// Class that manage and displays the player's score
+// Class der administrerer og viser spillerens score
 public class ScoreCounter extends Label
 {
-    private int score;// store the player's score
-    private Label scoreLabel; // A label to display the score
+    private int score;// gemme spillerens score
+    private Label scoreLabel; // En etiket til at vise partitur
 
     public ScoreCounter(Pane pane)
     {
-        this.score = 0; // Score starts at zero
+        this.score = 0; // Score starts FOR zero
 
-        // Gives a layout, font and text to the label
+        // Giver et layout, skrifttype og tekst til etiketten
         scoreLabel = new Label();
         scoreLabel.setLayoutX(160);
         scoreLabel.setLayoutY(20);
         scoreLabel.setFont(new Font("Arial", 20));
         scoreLabel.setText("Score: " + score);
-        pane.setStyle("-fx-background-color: grey;"); // Set background color
-        pane.getChildren().add(scoreLabel); // Label added to the pane
+        pane.setStyle("-fx-background-color: grey;"); // Indstil baggrundsfarve
+        pane.getChildren().add(scoreLabel); // Etiket tilføjet til ruden
 
     }
 
@@ -32,7 +32,7 @@ public class ScoreCounter extends Label
         scoreLabel.setText("Score: " + score); // Updates the label text
     }
 
-    // Method to display and set a specific score
+    // Metode til at vise og indstille en specifik score
     public void setScore(int score)
     {
         this.score = score;

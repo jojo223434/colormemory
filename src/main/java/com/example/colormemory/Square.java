@@ -8,73 +8,73 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-// Class that represents each square in the game
+// Class der repræsenterer hver firkant i spillet
 public class Square extends Rectangle
 {
-    // Constructor for the Square class
+    // Konstruktør for Square-klassen
     public Square(Pane pane, int x, int y, Color color)
     {
-        // Call the superclass constructor (Rectangle) to set the square's position and size
+        // Kald superklassekonstruktøren (Rektangel) for at indstille firkantens position og størrelse
         super(x,y, 100, 100);
 
-        // Add the square to the Pane so it is visible in the game
+        // Tilføj firkanten til ruden, så den er synlig i spillet
         pane.getChildren().add(this);
 
-        // Set the color of the square
+        // Indstil firkantens farve
         this.setFill(color);
     }
 
     public Square(Pane pane, int x, int y, java.awt.Color black) {
     }
 
-    // Method for scaling the cube and reversing to the original size
-    // 'mouseEvent' is used to determine if the scale is triggered by user interaction (click)
+    // Metode til at skalere terningen og vende tilbage til den oprindelige størrelse
+    // // 'mouseEvent' bruges til at bestemme, om skalaen udløses af brugerinteraktion (klik)
     public ScaleTransition scaleSquare(Node node, boolean mouseEvent)
     {
-        // Create a new ScaleTransition animation
+        // Opret en ny ScaleTransition-animation
         ScaleTransition scaleTransition = new ScaleTransition();
-        // Set animation interpolator for smoother scaling
+        // Indstil animationsinterpolator for jævnere skalering
         scaleTransition.setInterpolator(Interpolator.EASE_BOTH);
-        // Set the duration of the animation
+        // Indstil varigheden animationen
         scaleTransition.setDuration(Duration.seconds(0.8));
-        // Define the scaling size (increase by 20%)
+        // Definer skaleringsstørrelsen (forøg med 20 %)
         scaleTransition.setByY(0.2);
         scaleTransition.setByX(0.2);
-        // Enable auto-reverse so the square returns to its original size
+        // Aktiver auto-reversering, så firkanten vender tilbage til sin oprindelige størrelse
         scaleTransition.setAutoReverse(true);
-        // Set the cycle count to 2 so the square scales up and down
+        // Indstil cyklustællingen til 2, så firkanten skaleres op og ned
         scaleTransition.setCycleCount(2);
-        // Attach the animation to the square (node)
+        // Vedhæft animationen til firkanten (knudepunktet)
         scaleTransition.setNode(node);
 
-        // If the scaling is triggered by a mouse click
+        // Hvis skaleringen udløses af et museklik
         if (mouseEvent)
         {
-            // Disable the square to prevent additional clicks during animation
+            // Deaktiver firkanten for at forhindre yderligere klik under animation
             disablePress();
 
-            // re-enable the square after the scaling animation finishes
+            // genaktiver firkanten, når skaleringsanimationen er færdig
             scaleTransition.setOnFinished(event ->
             {
                 enablePress();
             });
-            // Start the scaling animation
+            // Start skaleringsanimationen
             scaleTransition.play();
         }
 
-        // Return the ScaleTransition object
+        // Returner SceTransition-objektet
         return scaleTransition;
     }
 
-    // Method to enable mouse interaction with the square
+    // Metode til at aktivere musens interaktion med firkanten
     public void enablePress()
     {
-        this.setDisable(false); // Make the Square clickable again
+        this.setDisable(false); // Gør firkanten klikbar igen
     }
 
-    // Method to disable mouse interaction with the square
+    // Metode til at deaktivere musens interaktion med firkanten
     public void disablePress()
     {
-        this.setDisable(true); // Prevent the square from being clicked
+        this.setDisable(true); // Undgå, at firkanten bliver klikket
     }
 }
