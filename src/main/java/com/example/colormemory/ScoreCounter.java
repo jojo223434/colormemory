@@ -7,7 +7,7 @@ import javafx.scene.text.Font;
 // Class that manage and displays the player's score
 public class ScoreCounter extends Label
 {
-    private int score; // store the player's score
+    private int score;// store the player's score
     private Label scoreLabel; // A label to display the score
 
     public ScoreCounter(Pane pane)

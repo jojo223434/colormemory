@@ -1,150 +1,143 @@
 package com.example.colormemory;
 
+import com.example.colormemory.ScoreCounter;
+import com.example.colormemory.Sequence;
+import com.example.colormemory.Square;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
+import javafx.scene.control.Button;
+
+import java.awt.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class GameMemory extends Application
-{
-    Sequence sequence; // The sequence of squares that the player must follow
-    Square square1, square2, square3, square4; // Four squares used in the game
-    Pane pane; // The Pane layout for the game
-    int count = 0; // Keeps track of the player's progress through the current sequence
+public class GameMemory extends Application {
+    Sequence sequence; // Sekvens af firkanter, som spilleren skal følge
+    Square square1, square2, square3, square4, square5, square6, square7, square8, square9; // Ni firkanter til 3x3 layout
+    Pane pane; // Pane layout til spillet
+    int count = 0; // Holder styr på spillerens fremskridt i den nuværende sekvens
 
-    // To track and display the player's score
-    ScoreCounter scoreCounter;
+    ScoreCounter scoreCounter; // Til at holde styr på og vise spillerens score
 
-    // A boolean that tracks if the player selects the correct sequence
-    boolean allSquareCorrect;
+    boolean allSquareCorrect; // Boolean der holder styr på om spilleren vælger rigtigt i sekvensen
 
-    // A Start/Restart button for the game
-    Button startButton = new Button("Start");
+    Button startButton = new Button("Start"); // Start/Restart knap
 
     @Override
-    public void start(Stage stage) throws Exception
-    {
-        // Create a Pane to hold the squares
+    public void start(Stage stage) throws Exception {
+        // Opret pane og scene
         pane = new Pane();
-
-        // Create scene, add background color, and show it on stage
-        Scene scene = new Scene(pane, 400, 400);
-        scene.setFill(Color.GREY);
+        Scene scene = new Scene(pane, 600, 600); // For at tilpasse 3x3 gitter, øg størrelsen på scenen
+        scene.setFill(Color.GREEN);
         stage.setScene(scene);
         stage.setTitle("Memory Game");
         stage.show();
 
-        // The position of the button and add it to the pane
-        startButton.setLayoutX(175);
-        startButton.setLayoutY(300);
+        // Tilføj startknappen
+        startButton.setLayoutX(250); // X-placering
+        startButton.setLayoutY(500); // Y-placering
         pane.getChildren().add(startButton);
-        // Press the start button to start the game
-        startButton.setOnAction(event -> {startGame();});
+        startButton.setOnAction(event -> startGame()); // Start spillet på klik
 
         scoreCounter = new ScoreCounter(pane);
 
-        // Create four squares with specified positions and colors
-        square1 = new Square(pane, 85, 50, Color.RED);
+        // Opret ni firkanter med specifikke positioner og farver
+        square1 = new Square(pane, 85, 50, Color.BLACK);
         square2 = new Square(pane, 210, 50, Color.YELLOW);
-        square3 = new Square(pane, 85, 180, Color.GREEN);
-        square4 = new Square(pane, 210, 180, Color.BLUE);
+        square3 = new Square(pane, 335, 50, Color.GREEN);
+        square4 = new Square(pane, 85, 180, Color.BLUE);
+        square5 = new Square(pane, 210, 180, Color.RED);
+        square6 = new Square(pane, 335, 180, Color.WHITE);
+        square7 = new Square(pane, 85, 310, Color.ORANGE);
+        square8 = new Square(pane, 210, 310, Color.PINK);
+        square9 = new Square(pane, 335, 310, Color.CYAN);
 
-        // Initialize the sequence with the squares and the game reference
-        sequence = new Sequence(this, square1, square2, square3, square4);
+        // Initialiser sekvensen med de ni firkanter
+        sequence = new Sequence(this, square1, square2, square3, square4, square5, square6, square7, square8, square9);
 
-        // Set up a mouse click for each square
+        // Tilføj klik-handlinger for alle ni firkanter
         square1.setOnMouseClicked(mouseEvent -> pressedSquare(0, square1));
         square2.setOnMouseClicked(mouseEvent -> pressedSquare(1, square2));
         square3.setOnMouseClicked(mouseEvent -> pressedSquare(2, square3));
         square4.setOnMouseClicked(mouseEvent -> pressedSquare(3, square4));
+        square5.setOnMouseClicked(mouseEvent -> pressedSquare(4, square5));
+        square6.setOnMouseClicked(mouseEvent -> pressedSquare(5, square6));
+        square7.setOnMouseClicked(mouseEvent -> pressedSquare(6, square7));
+        square8.setOnMouseClicked(mouseEvent -> pressedSquare(7, square8));
+        square9.setOnMouseClicked(mouseEvent -> pressedSquare(8, square9));
     }
 
-    public void startGame()
-    {
+    public void startGame() {
+        sequence.addNewSquareToSequence(); // Tilføj første firkant til sekvensen
+        sequence.playAllSquares(); // Afspil sekvensen
 
-        // Add the first square to the sequence and play it
-        sequence.addNewSquareToSequence();
-        sequence.playAllSquares();
+        startButton.setVisible(false); // Skjul knappen under spillet
+        startButton.setText("Start"); // For at sætte knaptekst til 'Start'
 
-        startButton.setVisible(false);
-        startButton.setText("Start");
     }
 
-    // Method called when a square is clicked
-    public void pressedSquare(int squareIndex, Square square)
-    {
-
-        // Play the scaling animation when the square is clicked
+    public void pressedSquare(int squareIndex, Square square) {
         square.scaleSquare(square, true);
 
-        // schedule a new thread pool to handle sequence timing
         ScheduledExecutorService order = Executors.newScheduledThreadPool(1);
 
-        // Check if the clicked square matches the current position is the sequence
-        if (sequence.sequenceArray.get(count) == squareIndex)
-        {
-            count++; // Move to the next square in the sequence
+        // Kontrollér om den rigtige firkant blev klikket på
+        if (sequence.sequenceArray.get(count) == squareIndex) {
+            count++;
 
-            // If the player has successfully matched the full sequence
-            if (count == sequence.sequenceArray.size())
-            {
-                count = 0; // reset count for the next round
+            if (count == sequence.sequenceArray.size()) {
+                count = 0;
                 allSquareCorrect = true;
-                sequence.addNewSquareToSequence(); // Add a new square to the sequence
+                sequence.addNewSquareToSequence();
+                scoreCounter.addScore();
 
-                scoreCounter.addScore(); // Update the score
-
-                // Schedule the sequence to play after a 3-second delay
-                order.schedule(() ->
-                {
+                order.schedule(() -> {
                     sequence.playAllSquares();
                 }, 3, TimeUnit.SECONDS);
             }
-        } else
-        {
-            // If the sequence pressed is incorrect reset the game
-            tryAgain();
+        } else {
+            tryAgain(); // Hvis forkert firkant klikkes på
         }
     }
 
-    // Resets the game
-    public void tryAgain()
-    {
-        allSquareCorrect = false; // Player did not follow the sequence
+    public void tryAgain() {
+        allSquareCorrect = false;
+        startButton.setText("Restart Game"); // For at sætte knaptekst til 'Restart Game'
+        startButton.setVisible(true);
+        scoreCounter.setScore(0);
 
-        startButton.setText("Restart Game"); // changes the button text
-        startButton.setVisible(true); // make the button visible
-        scoreCounter.setScore(0); // Reset the score
-
-        sequence.sequenceArray.clear(); // Clears the current sequence
+        sequence.sequenceArray.clear(); // Nulstil sekvensen
     }
 
-
-    // Method to disable square clicks during sequence playback
-    public void disableClicks()
-    {
+    public void disableClicks() {
         square1.setDisable(true);
         square2.setDisable(true);
         square3.setDisable(true);
         square4.setDisable(true);
+        square5.setDisable(true);
+        square6.setDisable(true);
+        square7.setDisable(true);
+        square8.setDisable(true);
+        square9.setDisable(true);
     }
 
-    // Method to re-enable square clicks
-    public void enableClicks()
-    {
+    public void enableClicks() {
         square1.setDisable(false);
         square2.setDisable(false);
         square3.setDisable(false);
         square4.setDisable(false);
+        square5.setDisable(false);
+        square6.setDisable(false);
+        square7.setDisable(false);
+        square8.setDisable(false);
+        square9.setDisable(false);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         launch(args);
     }
 }

@@ -24,6 +24,9 @@ public class Square extends Rectangle
         this.setFill(color);
     }
 
+    public Square(Pane pane, int x, int y, java.awt.Color black) {
+    }
+
     // Method for scaling the cube and reversing to the original size
     // 'mouseEvent' is used to determine if the scale is triggered by user interaction (click)
     public ScaleTransition scaleSquare(Node node, boolean mouseEvent)

@@ -22,7 +22,7 @@ public class Sequence
     GameMemory gameMemory;
 
     // Constructor that takes four squares and add them to the squaresArray list
-    public Sequence(GameMemory mainApp, Square square1, Square square2, Square square3, Square square4)
+    public Sequence(GameMemory mainApp, Square square1, Square square2, Square square3, Square square4, Square square5, Square square6, Square square7, Square square8, Square square9, Square square10)
     {
         // Store the reference to the main game application
         gameMemory = mainApp;
@@ -32,6 +32,16 @@ public class Sequence
         squaresArray.add(square2);
         squaresArray.add(square3);
         squaresArray.add(square4);
+        squaresArray.add(square5);
+        squaresArray.add(square6);
+        squaresArray.add(square7);
+        squaresArray.add(square8);
+        squaresArray.add(square9);
+
+        
+    }
+
+    public Sequence(GameMemory mainApp, Square square1, Square square2, Square square3, Square square4, Square square5, Square square6, Square square7, Square square8, Square square9) {
     }
 
     // Method to add a new randomly chosen square to the sequenceArray
